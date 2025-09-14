@@ -1,55 +1,19 @@
-# drift-monitoring-training
-Practice drift monitoring using evidently in context of datascientest training
+# Rendu Examen - Drift Monitoring
+Documentation d'accompagnement pour l'examen Drift Monitoring (basé sur evidently)
 
-## Setup VM
+## 1. Réponses aux questions des étapes 4 à 6
 
-### Initialisation des dépendances de la VM (one time)
+### Etape 4 :
 
-#### Mise à jour globale des paquets et rattrapage éventuel des installations manquantes
+### Etape 5 :
 
-```bash
-# Mets à jour la liste des paquets
-sudo apt update
+### Etape 6 :
 
-# Récupère et corrige d'éventuels paquets manquants
-sudo apt install --fix-missing
-```
+## 2. Commande centralisée d'appel de la chaine de traitement
 
-#### python3
+### Setup préalable de l'environnement virtuel
 
-```bash
-# (Ré)installation de python3
-sudo apt install -y python3
-```
-
-#### pip3 et pipx
-
-```bash
-# (Ré)installation de pip3 et pipx
-sudo apt-get install -y python3-pip
-sudo apt install -y pipx
-pipx ensurepath
-source ~/.bashrc
-```
-
-### uv
-
-```bash
-# Lance l’installation de uv
-pipx install uv
-```
-
-### Check des composants nécessaire (on demand)
-
-```bash
-# Relance l’installation de pip
-python3 --version
-pip3 --version
-pipx --version
-uv --version
-```
-
-## Setup environnement virtuel et evidently (one time)
+Utilisation d'un pyproject.toml équivalent au requirements.txt demandé
 
 ```bash
 # A executer dans le repository cloné
@@ -57,19 +21,61 @@ uv sync
 source .venv/bin/activate
 ```
 
-## Daily run
+### Execution de la chaîne de traitement (et visualisation via evidently)
+
 ```bash
-# Open the UI on the created workspace
-python src/step1_download_data.py
-# python src/step2_load_and_process_data.py
-# python src/step3_train_and_evaluate_model.py
-# python src/step4_save_model_and_data.py
-# python src/step5_generate_report.py
-# or directly the main that encapsulate all 5 steps (except the first)
-python src/main.py
-python src/dummy_metrics_calculation.py 
-python src/evidently_metrics_calculation.py
-python src/debug_drift.py
-evidently ui --workspace ./NYC-monitoring-workspace
+### Appel de traitement
+# Les rapports HTML/JSON sont générés dans `reports/exam_drift_monitoring/`.
+python build_reports.py --outdir reports --project exam_drift_monitoring
+# Visualisation dans evidently UI
+evidently ui --workspace ./exam_drift_monitoring_workspace
 ```
+
+## 3. [Optionnel] Rappel des vérification d'usage de la VM (avec OS Ubuntu)
+
+Non demandé mais par acquis de conscience si UV n'est encore présent...
+
+### Mise à jour globale des paquets et rattrapage éventuel des installations manquantes
+
+```bash
+# Mise à jour de la liste des paquets
+sudo apt update
+# Récupère et corrige d'éventuels paquets manquants
+sudo apt install --fix-missing
+```
+
+### Mise à jour python3
+
+```bash
+# (Ré)installation/verif de python3 (par sureté)
+sudo apt install -y python3
+```
+
+### Mise à jour pip3 et pipx
+
+```bash
+# (Ré)installation/verif de pip3 et pipx (par sureté)
+sudo apt-get install -y python3-pip
+sudo apt install -y pipx
+pipx ensurepath
+source ~/.bashrc
+```
+
+### Installation UV (gestionnaire environnement virtuel)
+
+```bash
+# Lance l’installation de uv
+pipx install uv
+```
+
+### Check final des composants nécessaires (ils doivent être tous présents)
+
+```bash
+# l'ensemble des composants de base est présent
+python3 --version
+pip3 --version
+pipx --version
+uv --version
+```
+
 

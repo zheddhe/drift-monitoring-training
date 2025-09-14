@@ -1,25 +1,13 @@
 [project]
-name = "drift-monitoring-taxi"
-version = "0.1.0"
-description = "monitoring use case on taxi"
+name = "exam-drift-monitoring"
+version = "1.0.0"
+description = "Examen Drift Monitoring CANAL"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "prefect==3.4.5",
-    "tqdm==4.67.1",
     "requests==2.32.4",
-    "joblib==1.5.1",
-    "pyarrow==20.0.0",
-    "psycopg==3.2.9",
-    "psycopg-binary==3.2.9",
     "evidently==0.6.7",
     "pandas==2.3.0",
     "numpy==2.0.2",
     "scikit-learn==1.7.0",
-    "jupyter==1.1.1",
-    "matplotlib==3.10.3",
 ]
-
-[build-system]
-requires = ["setuptools"] # Ou d'autres outils de build si vous en utilisez
-build-backend = "setuptools.build_meta"
