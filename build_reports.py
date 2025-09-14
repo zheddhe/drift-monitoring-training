@@ -2,12 +2,12 @@
 """Build Evidently reports for the Bike Sharing exam in one single run.
 
 Outputs (all in the same project folder):
-  - 02_validation.html/json           (validation train vs test - Jan 1–28)
-  - 03_prod_january.html/json         (prod model performance on January full)
-  - 04_week{1,2,3}_regression.html/json (monitoring weeks of February)
-  - 05_target_drift_<worstweek>.html/json (target drift on worst week)
-  - 06_data_drift_week3_numeric.html/json (data drift on last week, numeric only)
-  - 00_summary.json                   (MAE by week + worst week)
+  - 01_validation.html/json                     (model validation report (train vs test) on Jan)
+  - 02_model_drift_january.html/json            (model drift monitoring on January full)
+  - 03_model_drift_feb_week{1,2,3}.html/json    (model drift monitoring on the 3 first weeks of Feb)
+  - 04a_feb_weeks_audit.json                    (Feb weeks MAE audit to identify worst week)
+  - 04b_target_drift_feb_week{1,2,3}.html/json  (target drift monitoring on Feb worst week)
+  - 05_data_drift_feb_week3_numeric.html/json   (data drift monitoring on last week, numeric only)
 
 Run once; no manual steps required after.
 """
@@ -25,7 +25,7 @@ import zipfile
 import numpy as np
 import pandas as pd
 import requests
-from sklearn import ensemble, model_selection
+from sklearn import ensemble
 
 from evidently.metric_preset import (
     RegressionPreset,
@@ -43,7 +43,7 @@ DATA_URL = (
 )
 
 TARGET = "cnt"
-PREDICTION = "prediction"
+PREDICTION = "cnt_predicted"
 NUMERICAL_FEATURES = [
     "temp",
     "atemp",
@@ -95,9 +95,7 @@ def _build_column_mapping(
 def _save_report(rep: Report, out_html: str, out_json: str | None = None) -> None:
     os.makedirs(os.path.dirname(out_html), exist_ok=True)
     rep.save_html(out_html)
-    if out_json:
-        with open(out_json, "w", encoding="utf-8") as f:
-            json.dump(rep.as_dict(), f, ensure_ascii=False, indent=2)
+    rep.save_json(out_json)
 
 
 def _regression_report(
@@ -159,32 +157,43 @@ def _train_validation_model(
     jan_ref: pd.DataFrame,
     n_estimators: int,
     random_state: int,
+    test_ratio: float = 0.30,
 ) -> tuple[ensemble.RandomForestRegressor, pd.DataFrame, pd.DataFrame]:
-    X = jan_ref[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
-    y = jan_ref[TARGET]
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(
-        X, y, test_size=0.3, random_state=random_state
-    )
+    """
+    Time-aware split: first (1 - test_ratio) chunk is train, last chunk is test.
+    Avoids leakage for time series.
+    """
+    # Ensure chronological order
+    df = jan_ref.sort_index()
+    n = len(df)
+    cut = max(1, int(n * (1.0 - test_ratio)))
+    train_df = df.iloc[:cut]
+    test_df = df.iloc[cut:]
+
+    # Train on past, evaluate on future
+    X_train = train_df[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
+    y_train = train_df[TARGET]
+    X_test = test_df[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
+    y_test = test_df[TARGET]
+
     reg = ensemble.RandomForestRegressor(
         random_state=random_state, n_estimators=n_estimators
     )
     reg.fit(X_train, y_train)
+
     # Attach target & predictions for Evidently
-    X_train = X_train.copy()
-    X_test = X_test.copy()
-    X_train["target"] = y_train
-    X_train["prediction"] = reg.predict(
-        X_train[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
-    )
-    X_test["target"] = y_test
-    X_test["prediction"] = reg.predict(
-        X_test[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
-    )
-    return reg, X_train, X_test
+    train_rep = X_train.copy()
+    test_rep = X_test.copy()
+    train_rep[TARGET] = y_train
+    train_rep[PREDICTION] = reg.predict(X_train)
+    test_rep[TARGET] = y_test
+    test_rep[PREDICTION] = reg.predict(X_test)
+
+    return reg, train_rep, test_rep
 
 
 def _compute_mae(df_with_pred: pd.DataFrame) -> float:
-    return float(np.mean(np.abs(df_with_pred["target"] - df_with_pred["prediction"])))
+    return float(np.mean(np.abs(df_with_pred[TARGET] - df_with_pred[PREDICTION])))
 
 
 # -----------------------------
@@ -238,22 +247,22 @@ def main() -> None:
         jan_full, args.n_estimators, args.random_state
     )
     cm_val = _build_column_mapping(
-        NUMERICAL_FEATURES, CATEGORICAL_FEATURES, "target", "prediction"
+        NUMERICAL_FEATURES, CATEGORICAL_FEATURES, TARGET, PREDICTION
     )
     _regression_report(
         X_train,
         X_test,
         cm_val,
-        os.path.join(project_dir, "02_validation.html"),
-        os.path.join(project_dir, "02_validation.json"),
+        os.path.join(project_dir, "01_validation.html"),
+        os.path.join(project_dir, "01_validation.json"),
     )
 
     # Step 3 — Production model retrained on full January
     logging.info("Training production model on full January..")
     reg.fit(jan_full[NUMERICAL_FEATURES + CATEGORICAL_FEATURES], jan_full[TARGET])
     jan_full_rep = jan_full[NUMERICAL_FEATURES + CATEGORICAL_FEATURES].copy()
-    jan_full_rep["target"] = jan_full[TARGET]
-    jan_full_rep["prediction"] = reg.predict(
+    jan_full_rep[TARGET] = jan_full[TARGET]
+    jan_full_rep[PREDICTION] = reg.predict(
         jan_full[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
     )
     cm_prod = _build_column_mapping(
@@ -263,8 +272,8 @@ def main() -> None:
         None,
         jan_full_rep,
         cm_prod,
-        os.path.join(project_dir, "03_prod_january.html"),
-        os.path.join(project_dir, "03_prod_january.json"),
+        os.path.join(project_dir, "02_model_drift_january.html"),
+        os.path.join(project_dir, "02_model_drift_january.json"),
     )
 
     # Step 4 — Weekly monitoring reports on February weeks
@@ -276,19 +285,20 @@ def main() -> None:
     for wk, (start, end) in WEEKS.items():
         week_df = raw.loc[start:end]
         week_rep = week_df[NUMERICAL_FEATURES + CATEGORICAL_FEATURES].copy()
-        week_rep["target"] = week_df[TARGET]
-        week_rep["prediction"] = reg.predict(
+        week_rep[TARGET] = week_df[TARGET]
+        week_rep[PREDICTION] = reg.predict(
             week_df[NUMERICAL_FEATURES + CATEGORICAL_FEATURES]
         )
         _regression_report(
             jan_ref_for_weeks,
             week_rep,
             cm_prod,
-            os.path.join(project_dir, f"04_{wk}_regression.html"),
-            os.path.join(project_dir, f"04_{wk}_regression.json"),
+            os.path.join(project_dir, f"03_model_drift_feb_{wk}.html"),
+            os.path.join(project_dir, f"03_model_drift_feb_{wk}.json"),
         )
         mae_by_week[wk] = _compute_mae(week_rep)
 
+    # Step 5 — Target drift on the worst week (vs January)
     worst_week = max(mae_by_week, key=mae_by_week.get)  # type: ignore
     worst_range = WEEKS[worst_week]
     logging.info(
@@ -296,15 +306,19 @@ def main() -> None:
         worst_week, mae_by_week[worst_week], worst_range
     )
 
-    # Step 5 — Target drift on the worst week (vs January)
+    # Preliminary summary (to keep track of the context to determine worst week = highest MAE)
+    summary = {"mae_by_week": mae_by_week, "worst_week": worst_week, "week_ranges": WEEKS}
+    with open(os.path.join(project_dir, "04a_feb_weeks_audit.json"), "w", encoding="utf-8") as f:
+        json.dump(summary, f, ensure_ascii=False, indent=2)
+
     logging.info("Building target drift report on %s…", worst_week)
     worst_df = raw.loc[worst_range[0]:worst_range[1]]
     _target_drift_report(
         jan_full,
         worst_df,
         TARGET,
-        os.path.join(project_dir, f"05_target_drift_{worst_week}.html"),
-        os.path.join(project_dir, f"05_target_drift_{worst_week}.json"),
+        os.path.join(project_dir, f"04b_target_drift_feb_{worst_week}.html"),
+        os.path.join(project_dir, f"04b_target_drift_feb_{worst_week}.json"),
     )
 
     # Step 6 — Data drift (numeric only) on last week (week3)
@@ -316,14 +330,9 @@ def main() -> None:
         jan_full,
         week3_df,
         NUMERICAL_FEATURES,
-        os.path.join(project_dir, "06_data_drift_week3_numeric.html"),
-        os.path.join(project_dir, "06_data_drift_week3_numeric.json"),
+        os.path.join(project_dir, "05_data_drift_feb_week3_numeric.html"),
+        os.path.join(project_dir, "05_data_drift_feb_week3_numeric.json"),
     )
-
-    # Small JSON summary (to help the README step)
-    summary = {"mae_by_week": mae_by_week, "worst_week": worst_week, "week_ranges": WEEKS}
-    with open(os.path.join(project_dir, "00_summary.json"), "w", encoding="utf-8") as f:
-        json.dump(summary, f, ensure_ascii=False, indent=2)
 
     logging.info("All done. Reports written to: %s", project_dir)
 
