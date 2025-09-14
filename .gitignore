@@ -207,9 +207,4 @@ marimo/_lsp/
 __marimo__/
 
 # Evidently
-workspace
-datascientest-workspace
-data
-models
-NYC-monitoring-workspace
-reports
+.exam_evidently_workspace
