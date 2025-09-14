@@ -55,5 +55,21 @@ uv --version
 # A executer dans le repository cloné
 uv sync
 source .venv/bin/activate
-evidently ui --demo-projects all
+mkdir -p data && curl "https://assets-datascientest.s3.eu-west-1.amazonaws.com/drift_monitoring/Delay_data.zip" -o "data/Delay_data.zip"
 ```
+
+## Daily run
+```bash
+# Affichage des projets de démo
+source .venv/bin/activate
+./ui_demo_all.sh
+
+# workspace pour regression et classification
+source .venv/bin/activate
+python 2_regression_monitoring.py
+python 3_classification_monitoring.py
+python 4_test_suites.py
+python 4a_test_suites.py
+./ui_workspace.sh
+```
+
