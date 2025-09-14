@@ -1,9 +1,25 @@
 [project]
-name = "github-drift-monitoring"
+name = "mon-projet-ml-monitoring"
 version = "0.1.0"
-description = "Add your description here"
+description = "monitoring use case on taxi"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-	"evidently==0.6.7"
+    "prefect==3.4.5",
+    "tqdm==4.67.1",
+    "requests==2.32.4",
+    "joblib==1.5.1",
+    "pyarrow==20.0.0",
+    "psycopg==3.2.9",
+    "psycopg-binary==3.2.9",
+    "evidently==0.6.7",
+    "pandas==2.3.0",
+    "numpy==2.0.2",
+    "scikit-learn==1.7.0",
+    "jupyter==1.1.1",
+    "matplotlib==3.10.3",
 ]
+
+[build-system]
+requires = ["setuptools"] # Ou d'autres outils de build si vous en utilisez
+build-backend = "setuptools.build_meta"
