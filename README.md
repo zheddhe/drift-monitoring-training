@@ -17,7 +17,7 @@ Cela démontre une dégradation des performances du modèles qui s'accentue avec
 
 La distribution des valeurs de la variable cible sur la 3ème semaine de février est répartie globalement sur des valeurs plus hautes que sur la période de référence de janvier (notamment au dela de 100 et jusqu'à 305 alors que la référence s'arrête à 218 )
 
-Le trafic est donc en nette hausse sur la semaine 3 de février comparé a tout janvier
+La hausse du trafic sur la semaine 3 de février comparé a tout janvier explique donc très certainement la dégradation des résultats (confirmation de l'observation de ME qui devient de plus en plus intensément négatif).
 
 ### Après l'étape 6, expliquez quelle stratégie appliquer :
 
@@ -26,9 +26,9 @@ Les variables explicatives à distribution stable (p-values élevées) sont:
 
 Les variables explicatives à distribution en dérive (p-value < 0.05) sont:
 - la donnée périodique : mnth (numéro du mois passant de 1 pour janvier à 2 pour février : donc un changement structurel de numéro de mois prévisible)
-- les données de conditions météos : temp (température réelle), atemp (température ressentie), hum (humidité), windspeed (force du vent) qui dénote un vrai drift prévisible des données climatique entre janvier et cette semaine de février
+- les données de conditions météos : temp (température réelle), atemp (température ressentie), hum (humidité), windspeed (force du vent) qui dénote un vrai drift prévisible des données climatiques entre janvier et cette semaine de février (on constate par exemple une distribution qui shifte vers les valeurs plus hautes)
 
-Stratégie de rafraichissement : ré-entrainement régulier à prévoir et à déclencher obligatoirement sur observation d'une p-value sur données météos inférieure à seuil de 0.05.
+La cause potentielle de la dérive est donc que le modèle n'a pas encore bien appris de l'influence des variations météos sur l'intensité du trafic et il faut mettre en place une stratégie de rafraichissement sur fenetre mobile pour prendre en compte ce point. Par exemple un ré-entrainement à fréquence régulière couplé à un réentrainement suite à observation d'une p-value sur données météos inférieure au seuil de 0.05 (vu qu'un changement climatique à un effet statistiquement notable sur la valeur de comptage).
 
 ## 2. Commande centralisée d'appel de la chaine de traitement
 
