@@ -6,54 +6,74 @@ from evidently.report import Report
 from evidently.metrics import DataDriftTable
 from evidently.metrics import DatasetDriftMetric
 
-# Fetch the dataset
-adult_data = datasets.fetch_openml(
-    name='adult',
-    version=2,
-    as_frame='auto'
-)
-# Transform into dataframe
+# --- (1) Charger le jeu de données
+adult_data = datasets.fetch_openml(name="adult", version=2, as_frame="auto")
 adult = adult_data.frame
 
-# Split the dataset for drift detection into reference and current data
-adult_ref = adult[~adult.education.isin(
-    [
-        'Some-college',
-        'HS-grad',
-        'Bachelors'
-    ]
-)]
-adult_cur = adult[adult.education.isin(
-    [
-        'Some-college',
-        'HS-grad',
-        'Bachelors']
-)]
+# (Optionnel) Renommer explicitement les colonnes si tu veux des libellés propres dans le rapport
+# ⚠️ Fais exactement le même rename sur reference et current pour garder les schémas identiques
+rename_map = {
+    "education-num": "education_num",
+    "hours-per-week": "hours_per_week",
+    "capital-gain": "capital_gain",
+    "capital-loss": "capital_loss",
+    "native-country": "native_country",
+    "marital-status": "marital_status",
+}
+adult = adult.rename(columns=rename_map)
 
-# Introduce missing values for demonstration
+# --- (2) Split reference / current
+adult_ref = adult[~adult.education.isin(["Some-college", "HS-grad", "Bachelors"])]
+adult_cur = adult[adult.education.isin(["Some-college", "HS-grad", "Bachelors"])]
+
+# Introduire des valeurs manquantes pour la démonstration
 adult_cur.iloc[:2000, 3:5] = np.nan
 
-# Initialize the report with desired metrics
+# --- (3) Définir un ColumnMapping explicite (rôles + types)
+# Import compatible suivant ta version d'Evidently
+try:
+    from evidently import ColumnMapping
+except ImportError:
+    from evidently.pipeline.column_mapping import ColumnMapping  # fallback versions plus anciennes
+
+column_mapping = ColumnMapping(
+    target="class",                  # colonne cible (revenu >50K ?)
+    prediction=None,                 # si tu as des prédictions, mets le nom ici
+    id=None,
+    datetime=None,
+    # Liste explicite des numériques :
+    numerical_features=[
+        "age", "fnlwgt", "education_num", "capital_gain", "capital_loss", "hours_per_week"
+    ],
+    # Liste explicite des catégorielles :
+    categorical_features=[
+        "workclass", "education", "marital_status", "occupation",
+        "relationship", "race", "sex", "native_country"
+    ],
+    # (Optionnel) Spécifier des ordinales avec un ordre :
+    # ordinal_features={"education": ["Preschool","1st-4th","5th-6th","7th-8th","9th","10th",
+    #                                 "11th","12th","HS-grad","Some-college","Assoc-voc","Assoc-acdm",
+    #                                 "Bachelors","Masters","Prof-school","Doctorate"]},
+    text_features=[],
+)
+
+# --- (4) Construire et exécuter le rapport en passant column_mapping
 data_drift_dataset_report = Report(metrics=[
     DatasetDriftMetric(),
     DataDriftTable(),
 ])
 
-# Run the report
 data_drift_dataset_report.run(
     reference_data=adult_ref,
     current_data=adult_cur,
+    column_mapping=column_mapping,   # ⟵ le mapping explicite est utilisé ici
 )
 
-# Convert the JSON string to a Python dictionary for pretty printing
+# --- (5) Sauvegardes
 report_data = json.loads(data_drift_dataset_report.json())
-
-# Save the report in JSON format with indentation for better readability
-with open('data_drift_report.json', 'w') as f:
+with open("data_drift_report.json", "w") as f:
     json.dump(report_data, f, indent=4)
 
-# save HTML
 data_drift_dataset_report.save_html("Data drift report.html")
-
-# in a notebook run :
+# En notebook :
 # data_drift_dataset_report.show()
