@@ -1,0 +1,1045 @@
+{
+    "version": "0.6.7",
+    "metrics": [
+        {
+            "metric": "DatasetDriftMetric",
+            "result": {
+                "drift_share": 0.5,
+                "number_of_columns": 15,
+                "number_of_drifted_columns": 5,
+                "share_of_drifted_columns": 0.3333333333333333,
+                "dataset_drift": false
+            }
+        },
+        {
+            "metric": "DataDriftTable",
+            "result": {
+                "number_of_columns": 15,
+                "number_of_drifted_columns": 5,
+                "share_of_drifted_columns": 0.3333333333333333,
+                "dataset_drift": false,
+                "drift_by_columns": {
+                    "age": {
+                        "column_name": "age",
+                        "column_type": "num",
+                        "stattest_name": "Wasserstein distance (normed)",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.18534692319042428,
+                        "drift_detected": true,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    17.0,
+                                    24.3,
+                                    31.6,
+                                    38.9,
+                                    46.2,
+                                    53.5,
+                                    60.8,
+                                    68.1,
+                                    75.4,
+                                    82.7,
+                                    90.0
+                                ],
+                                "y": [
+                                    0.02471021672878118,
+                                    0.025839691234843417,
+                                    0.0262859521410848,
+                                    0.025211766596857754,
+                                    0.015942967066340047,
+                                    0.010173168977679455,
+                                    0.0061528716099474344,
+                                    0.0018640278561586543,
+                                    0.000568686464590777,
+                                    0.0002369526935794904
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    17.0,
+                                    24.3,
+                                    31.6,
+                                    38.9,
+                                    46.2,
+                                    53.5,
+                                    60.8,
+                                    68.1,
+                                    75.4,
+                                    82.7,
+                                    90.0
+                                ],
+                                "y": [
+                                    0.02104876054252575,
+                                    0.020739077628796638,
+                                    0.02384558435714183,
+                                    0.026835959992838568,
+                                    0.018658395552179158,
+                                    0.012580868370245284,
+                                    0.00869047676652328,
+                                    0.0029516652714806184,
+                                    0.001287119610186633,
+                                    0.000348393277945254
+                                ]
+                            }
+                        }
+                    },
+                    "capital-gain": {
+                        "column_name": "capital-gain",
+                        "column_type": "num",
+                        "stattest_name": "Wasserstein distance (normed)",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.0817732650223179,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    0.0,
+                                    9999.9,
+                                    19999.8,
+                                    29999.699999999997,
+                                    39999.6,
+                                    49999.5,
+                                    59999.399999999994,
+                                    69999.3,
+                                    79999.2,
+                                    89999.09999999999,
+                                    99999.0
+                                ],
+                                "y": [
+                                    9.822510079686088e-05,
+                                    1.2569676248842519e-06,
+                                    1.7297719608498882e-07,
+                                    1.1531813072332584e-08,
+                                    2.882953268083146e-09,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    3.3153962582956155e-07
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    0.0,
+                                    9999.9,
+                                    19999.8,
+                                    29999.699999999997,
+                                    39999.6,
+                                    49999.5,
+                                    59999.399999999994,
+                                    69999.3,
+                                    79999.2,
+                                    89999.09999999999,
+                                    99999.0
+                                ],
+                                "y": [
+                                    9.634147913361861e-05,
+                                    2.2395137409516095e-06,
+                                    4.804004239265283e-07,
+                                    1.4129424233133181e-08,
+                                    1.4129424233133181e-08,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    9.113478630370894e-07
+                                ]
+                            }
+                        }
+                    },
+                    "capital-loss": {
+                        "column_name": "capital-loss",
+                        "column_type": "num",
+                        "stattest_name": "Wasserstein distance (normed)",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.03378837284314874,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    0.0,
+                                    435.6,
+                                    871.2,
+                                    1306.8000000000002,
+                                    1742.4,
+                                    2178.0,
+                                    2613.6000000000004,
+                                    3049.2000000000003,
+                                    3484.8,
+                                    3920.4,
+                                    4356.0
+                                ],
+                                "y": [
+                                    0.0021929683487458603,
+                                    1.1912910903101098e-06,
+                                    1.257473928660671e-06,
+                                    3.4745990134044877e-05,
+                                    5.201971094354147e-05,
+                                    1.2310007933204457e-05,
+                                    5.95645545155055e-07,
+                                    6.618283835056166e-08,
+                                    3.309141917528083e-07,
+                                    1.98548515051685e-07
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    0.0,
+                                    390.0,
+                                    780.0,
+                                    1170.0,
+                                    1560.0,
+                                    1950.0,
+                                    2340.0,
+                                    2730.0,
+                                    3120.0,
+                                    3510.0,
+                                    3900.0
+                                ],
+                                "y": [
+                                    0.002434221847856606,
+                                    1.0868679183762194e-06,
+                                    1.2680125714389225e-06,
+                                    7.970364734758943e-06,
+                                    6.23137606535699e-05,
+                                    3.967067902073201e-05,
+                                    1.4672716898078962e-05,
+                                    2.173735836752439e-06,
+                                    1.811446530627032e-07,
+                                    5.434339591881097e-07
+                                ]
+                            }
+                        }
+                    },
+                    "education-num": {
+                        "column_name": "education-num",
+                        "column_type": "num",
+                        "stattest_name": "Wasserstein distance (normed)",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.6184494168858071,
+                        "drift_detected": true,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    9.0,
+                                    9.4,
+                                    9.8,
+                                    10.2,
+                                    10.6,
+                                    11.0,
+                                    11.4,
+                                    11.8,
+                                    12.2,
+                                    12.6,
+                                    13.0
+                                ],
+                                "y": [
+                                    1.138984917551319,
+                                    0.0,
+                                    0.7847156361856423,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.5762994462630397
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    1.0,
+                                    2.5,
+                                    4.0,
+                                    5.5,
+                                    7.0,
+                                    8.5,
+                                    10.0,
+                                    11.5,
+                                    13.0,
+                                    14.5,
+                                    16.0
+                                ],
+                                "y": [
+                                    0.015542211232779936,
+                                    0.023972683386318142,
+                                    0.08058401036147415,
+                                    0.06541858000706464,
+                                    0.11628399858707171,
+                                    0.0,
+                                    0.09706817379018015,
+                                    0.07540327328388084,
+                                    0.12513834922877665,
+                                    0.06725538678912045
+                                ]
+                            }
+                        }
+                    },
+                    "fnlwgt": {
+                        "column_name": "fnlwgt",
+                        "column_type": "num",
+                        "stattest_name": "Wasserstein distance (normed)",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.02364332069106699,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    12285.0,
+                                    160096.5,
+                                    307908.0,
+                                    455719.5,
+                                    603531.0,
+                                    751342.5,
+                                    899154.0,
+                                    1046965.5,
+                                    1194777.0,
+                                    1342588.5,
+                                    1490400.0
+                                ],
+                                "y": [
+                                    2.7682113067215177e-06,
+                                    3.1635586130503076e-06,
+                                    7.115081270288237e-07,
+                                    9.166908434856009e-08,
+                                    2.184454775965687e-08,
+                                    4.2908933099325996e-09,
+                                    2.340487259963236e-09,
+                                    1.170243629981618e-09,
+                                    3.900812099938727e-10,
+                                    3.900812099938727e-10
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    13769.0,
+                                    157935.6,
+                                    302102.2,
+                                    446268.80000000005,
+                                    590435.4,
+                                    734602.0,
+                                    878768.6000000001,
+                                    1022935.2000000001,
+                                    1167101.8,
+                                    1311268.4000000001,
+                                    1455435.0
+                                ],
+                                "y": [
+                                    2.7559464969112866e-06,
+                                    3.229318530342351e-06,
+                                    8.061045496833332e-07,
+                                    1.1172756068559274e-07,
+                                    2.1561459079675788e-08,
+                                    8.330563735329276e-09,
+                                    9.80066321803445e-10,
+                                    9.80066321803445e-10,
+                                    4.900331609017221e-10,
+                                    9.80066321803446e-10
+                                ]
+                            }
+                        }
+                    },
+                    "hours-per-week": {
+                        "column_name": "hours-per-week",
+                        "column_type": "num",
+                        "stattest_name": "Wasserstein distance (normed)",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.08859914569715911,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    1.0,
+                                    10.8,
+                                    20.6,
+                                    30.400000000000002,
+                                    40.2,
+                                    50.0,
+                                    59.800000000000004,
+                                    69.60000000000001,
+                                    79.4,
+                                    89.2,
+                                    99.0
+                                ],
+                                "y": [
+                                    0.0020562899821905873,
+                                    0.006445395351902112,
+                                    0.007127883586334467,
+                                    0.0567789026412883,
+                                    0.009940205793736761,
+                                    0.012011204574083209,
+                                    0.005336351970949533,
+                                    0.0013620347092335367,
+                                    0.0006089442436530068,
+                                    0.0003736034731590911
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    1.0,
+                                    10.8,
+                                    20.6,
+                                    30.400000000000002,
+                                    40.2,
+                                    50.0,
+                                    59.800000000000004,
+                                    69.60000000000001,
+                                    79.4,
+                                    89.2,
+                                    99.0
+                                ],
+                                "y": [
+                                    0.003070956393860971,
+                                    0.008196425868121887,
+                                    0.007028597380315601,
+                                    0.05289830520692911,
+                                    0.009313792631146421,
+                                    0.012579387106308432,
+                                    0.005968901159898786,
+                                    0.001585939921712239,
+                                    0.0007785523252041899,
+                                    0.0006199583330329661
+                                ]
+                            }
+                        }
+                    },
+                    "class": {
+                        "column_name": "class",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.034295484989628915,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "<=50K",
+                                    ">50K"
+                                ],
+                                "y": [
+                                    26808,
+                                    7879
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "<=50K",
+                                    ">50K"
+                                ],
+                                "y": [
+                                    10347,
+                                    3808
+                                ]
+                            }
+                        }
+                    },
+                    "education": {
+                        "column_name": "education",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.8325546111576977,
+                        "drift_detected": true,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "10th",
+                                    "11th",
+                                    "12th",
+                                    "1st-4th",
+                                    "5th-6th",
+                                    "7th-8th",
+                                    "9th",
+                                    "Assoc-acdm",
+                                    "Assoc-voc",
+                                    "Bachelors",
+                                    "Doctorate",
+                                    "HS-grad",
+                                    "Masters",
+                                    "Preschool",
+                                    "Prof-school",
+                                    "Some-college"
+                                ],
+                                "y": [
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    7535,
+                                    0,
+                                    14892,
+                                    0,
+                                    0,
+                                    0,
+                                    10260
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "10th",
+                                    "11th",
+                                    "12th",
+                                    "1st-4th",
+                                    "5th-6th",
+                                    "7th-8th",
+                                    "9th",
+                                    "Assoc-acdm",
+                                    "Assoc-voc",
+                                    "Bachelors",
+                                    "Doctorate",
+                                    "HS-grad",
+                                    "Masters",
+                                    "Preschool",
+                                    "Prof-school",
+                                    "Some-college"
+                                ],
+                                "y": [
+                                    1389,
+                                    1812,
+                                    657,
+                                    247,
+                                    509,
+                                    955,
+                                    756,
+                                    1601,
+                                    2061,
+                                    0,
+                                    594,
+                                    0,
+                                    2657,
+                                    83,
+                                    834,
+                                    0
+                                ]
+                            }
+                        }
+                    },
+                    "marital-status": {
+                        "column_name": "marital-status",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.03580192175047304,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Divorced",
+                                    "Married-AF-spouse",
+                                    "Married-civ-spouse",
+                                    "Married-spouse-absent",
+                                    "Never-married",
+                                    "Separated",
+                                    "Widowed"
+                                ],
+                                "y": [
+                                    4819,
+                                    30,
+                                    15558,
+                                    406,
+                                    11805,
+                                    1060,
+                                    1009
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Divorced",
+                                    "Married-AF-spouse",
+                                    "Married-civ-spouse",
+                                    "Married-spouse-absent",
+                                    "Never-married",
+                                    "Separated",
+                                    "Widowed"
+                                ],
+                                "y": [
+                                    1814,
+                                    7,
+                                    6821,
+                                    222,
+                                    4312,
+                                    470,
+                                    509
+                                ]
+                            }
+                        }
+                    },
+                    "native-country": {
+                        "column_name": "native-country",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.1073272783942341,
+                        "drift_detected": true,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Cambodia",
+                                    "Canada",
+                                    "China",
+                                    "Columbia",
+                                    "Cuba",
+                                    "Dominican-Republic",
+                                    "Ecuador",
+                                    "El-Salvador",
+                                    "England",
+                                    "France",
+                                    "Germany",
+                                    "Greece",
+                                    "Guatemala",
+                                    "Haiti",
+                                    "Holand-Netherlands",
+                                    "Honduras",
+                                    "Hong",
+                                    "Hungary",
+                                    "India",
+                                    "Iran",
+                                    "Ireland",
+                                    "Italy",
+                                    "Jamaica",
+                                    "Japan",
+                                    "Laos",
+                                    "Mexico",
+                                    "Nicaragua",
+                                    "Outlying-US(Guam-USVI-etc)",
+                                    "Peru",
+                                    "Philippines",
+                                    "Poland",
+                                    "Portugal",
+                                    "Puerto-Rico",
+                                    "Scotland",
+                                    "South",
+                                    "Taiwan",
+                                    "Thailand",
+                                    "Trinadad&Tobago",
+                                    "United-States",
+                                    "Vietnam",
+                                    "Yugoslavia"
+                                ],
+                                "y": [
+                                    22,
+                                    123,
+                                    66,
+                                    51,
+                                    74,
+                                    45,
+                                    30,
+                                    60,
+                                    86,
+                                    22,
+                                    147,
+                                    30,
+                                    29,
+                                    46,
+                                    1,
+                                    12,
+                                    14,
+                                    13,
+                                    63,
+                                    37,
+                                    28,
+                                    56,
+                                    75,
+                                    68,
+                                    13,
+                                    312,
+                                    31,
+                                    18,
+                                    34,
+                                    216,
+                                    57,
+                                    27,
+                                    116,
+                                    16,
+                                    91,
+                                    33,
+                                    19,
+                                    16,
+                                    31848,
+                                    63,
+                                    16
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Cambodia",
+                                    "Canada",
+                                    "China",
+                                    "Columbia",
+                                    "Cuba",
+                                    "Dominican-Republic",
+                                    "Ecuador",
+                                    "El-Salvador",
+                                    "England",
+                                    "France",
+                                    "Germany",
+                                    "Greece",
+                                    "Guatemala",
+                                    "Haiti",
+                                    "Holand-Netherlands",
+                                    "Honduras",
+                                    "Hong",
+                                    "Hungary",
+                                    "India",
+                                    "Iran",
+                                    "Ireland",
+                                    "Italy",
+                                    "Jamaica",
+                                    "Japan",
+                                    "Laos",
+                                    "Mexico",
+                                    "Nicaragua",
+                                    "Outlying-US(Guam-USVI-etc)",
+                                    "Peru",
+                                    "Philippines",
+                                    "Poland",
+                                    "Portugal",
+                                    "Puerto-Rico",
+                                    "Scotland",
+                                    "South",
+                                    "Taiwan",
+                                    "Thailand",
+                                    "Trinadad&Tobago",
+                                    "United-States",
+                                    "Vietnam",
+                                    "Yugoslavia"
+                                ],
+                                "y": [
+                                    6,
+                                    59,
+                                    56,
+                                    34,
+                                    64,
+                                    58,
+                                    15,
+                                    95,
+                                    41,
+                                    16,
+                                    59,
+                                    19,
+                                    59,
+                                    29,
+                                    0,
+                                    8,
+                                    16,
+                                    6,
+                                    88,
+                                    22,
+                                    9,
+                                    49,
+                                    31,
+                                    24,
+                                    10,
+                                    639,
+                                    18,
+                                    5,
+                                    12,
+                                    79,
+                                    30,
+                                    40,
+                                    68,
+                                    5,
+                                    24,
+                                    32,
+                                    11,
+                                    11,
+                                    11984,
+                                    23,
+                                    7
+                                ]
+                            }
+                        }
+                    },
+                    "occupation": {
+                        "column_name": "occupation",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.15320104636275708,
+                        "drift_detected": true,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Adm-clerical",
+                                    "Armed-Forces",
+                                    "Craft-repair",
+                                    "Exec-managerial",
+                                    "Farming-fishing",
+                                    "Handlers-cleaners",
+                                    "Machine-op-inspct",
+                                    "Other-service",
+                                    "Priv-house-serv",
+                                    "Prof-specialty",
+                                    "Protective-serv",
+                                    "Sales",
+                                    "Tech-support",
+                                    "Transport-moving"
+                                ],
+                                "y": [
+                                    4670,
+                                    10,
+                                    4501,
+                                    4505,
+                                    939,
+                                    1422,
+                                    2122,
+                                    3366,
+                                    129,
+                                    3216,
+                                    781,
+                                    4351,
+                                    1042,
+                                    1726
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Adm-clerical",
+                                    "Armed-Forces",
+                                    "Craft-repair",
+                                    "Exec-managerial",
+                                    "Farming-fishing",
+                                    "Handlers-cleaners",
+                                    "Machine-op-inspct",
+                                    "Other-service",
+                                    "Priv-house-serv",
+                                    "Prof-specialty",
+                                    "Protective-serv",
+                                    "Sales",
+                                    "Tech-support",
+                                    "Transport-moving"
+                                ],
+                                "y": [
+                                    941,
+                                    5,
+                                    1611,
+                                    1581,
+                                    551,
+                                    650,
+                                    900,
+                                    1557,
+                                    113,
+                                    2956,
+                                    202,
+                                    1153,
+                                    404,
+                                    629
+                                ]
+                            }
+                        }
+                    },
+                    "race": {
+                        "column_name": "race",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.019435544789376043,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Amer-Indian-Eskimo",
+                                    "Asian-Pac-Islander",
+                                    "Black",
+                                    "Other",
+                                    "White"
+                                ],
+                                "y": [
+                                    329,
+                                    1046,
+                                    3362,
+                                    240,
+                                    29710
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Amer-Indian-Eskimo",
+                                    "Asian-Pac-Islander",
+                                    "Black",
+                                    "Other",
+                                    "White"
+                                ],
+                                "y": [
+                                    141,
+                                    473,
+                                    1323,
+                                    166,
+                                    12052
+                                ]
+                            }
+                        }
+                    },
+                    "relationship": {
+                        "column_name": "relationship",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.031143725665058263,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Husband",
+                                    "Not-in-family",
+                                    "Other-relative",
+                                    "Own-child",
+                                    "Unmarried",
+                                    "Wife"
+                                ],
+                                "y": [
+                                    13682,
+                                    9073,
+                                    1038,
+                                    5634,
+                                    3604,
+                                    1656
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Husband",
+                                    "Not-in-family",
+                                    "Other-relative",
+                                    "Own-child",
+                                    "Unmarried",
+                                    "Wife"
+                                ],
+                                "y": [
+                                    6034,
+                                    3510,
+                                    468,
+                                    1947,
+                                    1521,
+                                    675
+                                ]
+                            }
+                        }
+                    },
+                    "sex": {
+                        "column_name": "sex",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.018953472036038928,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Female",
+                                    "Male"
+                                ],
+                                "y": [
+                                    11752,
+                                    22935
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Female",
+                                    "Male"
+                                ],
+                                "y": [
+                                    4440,
+                                    9715
+                                ]
+                            }
+                        }
+                    },
+                    "workclass": {
+                        "column_name": "workclass",
+                        "column_type": "cat",
+                        "stattest_name": "Jensen-Shannon distance",
+                        "stattest_threshold": 0.1,
+                        "drift_score": 0.040517690655095834,
+                        "drift_detected": false,
+                        "current": {
+                            "small_distribution": {
+                                "x": [
+                                    "Federal-gov",
+                                    "Local-gov",
+                                    "Never-worked",
+                                    "Private",
+                                    "Self-emp-inc",
+                                    "Self-emp-not-inc",
+                                    "State-gov",
+                                    "Without-pay"
+                                ],
+                                "y": [
+                                    1071,
+                                    2050,
+                                    4,
+                                    24520,
+                                    1176,
+                                    2610,
+                                    1336,
+                                    17
+                                ]
+                            }
+                        },
+                        "reference": {
+                            "small_distribution": {
+                                "x": [
+                                    "Federal-gov",
+                                    "Local-gov",
+                                    "Never-worked",
+                                    "Private",
+                                    "Self-emp-inc",
+                                    "Self-emp-not-inc",
+                                    "State-gov",
+                                    "Without-pay"
+                                ],
+                                "y": [
+                                    361,
+                                    1086,
+                                    6,
+                                    9386,
+                                    519,
+                                    1252,
+                                    645,
+                                    4
+                                ]
+                            }
+                        }
+                    }
+                },
+                "current_fi": null,
+                "reference_fi": null
+            }
+        }
+    ],
+    "timestamp": "2025-09-14 13:55:59.752963"
+}

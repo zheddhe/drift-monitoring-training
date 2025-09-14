@@ -49,10 +49,11 @@ pipx --version
 uv --version
 ```
 
-## Setup environnement virtuel (one time)
+## Setup environnement virtuel et evidently (one time)
 
 ```bash
 # A executer dans le repository cloné
-uv venv .venv
+uv sync
 source .venv/bin/activate
+evidently ui --demo-projects all
 ```
