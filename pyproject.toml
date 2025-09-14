@@ -1,5 +1,5 @@
 [project]
-name = "github-drift-monitoring"
+name = "drift-monitoring-training"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
