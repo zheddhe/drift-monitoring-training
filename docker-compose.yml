@@ -1,0 +1,52 @@
+# Docker Compose file version
+version: '3.7'
+
+# Define named volumes for data persistence
+volumes:
+  grafana_data: {} # Volume for Grafana's persistent data
+
+
+# Set up custom networks for service communication
+networks:
+  front-tier: {} # Network for frontend-facing services
+  back-tier: {}  # Network for backend services
+
+
+
+# Define your application's services
+services:
+  # PostgreSQL database service
+  database:
+    image: postgres:13.18-alpine3.19
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: test
+    ports:
+      - "5432:5432"
+    networks:
+      - back-tier
+
+
+  # Database management tool (Adminer)
+  adminer:
+    image: adminer:5.3.0
+    restart: always
+    ports:
+      - "8080:8080" # Access Adminer via this port
+    networks:
+      - back-tier
+      - front-tier # Accessible from both networks
+
+  # Grafana dashboard service
+  grafana:
+    image: grafana/grafana:11.4.0
+    user: "472" # User ID for container process
+    ports:
+      - "3000:3000" # Access Grafana via this port
+    networks:
+      - back-tier
+      - front-tier
+    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana # Example: persist Grafana data to named volume

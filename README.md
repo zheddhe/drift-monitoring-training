@@ -59,5 +59,17 @@ source .venv/bin/activate
 
 ## Daily run
 ```bash
+# Open the UI on the created workspace
+python src/step1_download_data.py
+# python src/step2_load_and_process_data.py
+# python src/step3_train_and_evaluate_model.py
+# python src/step4_save_model_and_data.py
+# python src/step5_generate_report.py
+# or directly the main that encapsulate all 5 steps (except the first)
+python src/main.py
+python src/dummy_metrics_calculation.py 
+python src/evidently_metrics_calculation.py
+python src/debug_drift.py
+evidently ui --workspace ./NYC-monitoring-workspace
 ```
 
